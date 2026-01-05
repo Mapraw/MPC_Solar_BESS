@@ -1,0 +1,2 @@
+timestamp,block_start,substep_in_block,E_target_kwh,target_power_kw,solar_forecast_kw,solar_actual_kw,actual_available,battery_power_kw,grid_output_kw,soc_kwh
+2026-01-03 06:00:00,2026-01-03 06:00:00,0,2540.2625,10161.05,0.0,,False,2000.0,2000.0,49824.56140350877
