@@ -15,7 +15,7 @@ from src.io.data_loader import (
 from src.models.battery import BatteryParams, BatteryState
 from src.runtime.utils import (
     latest_csv, safe_read_csv, dedup_and_clip_to_day,
-    forward_fill_day_ahead_to_5min, merge_forecast_actual
+    forward_fill_day_ahead_to_5min, merge_forecast_actual, ontime_csv
 )
 
 class RealTimeEMS:
@@ -82,11 +82,11 @@ class RealTimeEMS:
         date_str = self.day_start.strftime("%Y%m%d")
         return f"data/inbox/day_ahead_{date_str}.csv"
 
-    def ontime_forecast_path(self) -> Optional[str]:
-        return ontime_csv("data/inbox/forecast/*.csv")
+    def ontime_forecast_path(self, online_index) -> Optional[str]:
+        return ontime_csv("data/inbox/forecast/*.csv", online_index)
 
-    def ontime_actual_path(self) -> Optional[str]:
-        return latest_csv("data/inbox/actual/*.csv")
+    def ontime_actual_path(self, online_index) -> Optional[str]:
+        return ontime_csv("data/inbox/actual/*.csv", online_index)
     
     def latest_forecast_path(self) -> Optional[str]:
         return latest_csv("data/inbox/forecast/*.csv")
@@ -100,7 +100,7 @@ class RealTimeEMS:
         header = not os.path.exists(self.out_csv)
         df.to_csv(self.out_csv, mode="a", header=header, index=False)
 
-    def tick(self, t_now: pd.Timestamp):
+    def tick(self, t_now: pd.Timestamp, online_index: int):
         """
         Execute one MPC action at time t_now (aligned to 5-min grid).
         Accepts minimal streaming files:
@@ -111,8 +111,8 @@ class RealTimeEMS:
         # Read latest forecast + actual (each a short file)
         # df5f_short = safe_read_csv(self.latest_forecast_path(), ("timestamp",))
         # df5a_short = safe_read_csv(self.latest_actual_path(), ("timestamp",))
-        df5f_short = safe_read_csv(self.latest_forecast_path(), ("timestamp",))
-        df5a_short = safe_read_csv(self.latest_actual_path(), ("timestamp",))
+        df5f_short = safe_read_csv(self.ontime_forecast_path(online_index), ("timestamp",))
+        df5a_short = safe_read_csv(self.ontime_actual_path(online_index), ("timestamp",))
     
         # Fallbacks if missing
         if df5f_short is None or df5f_short.empty:

@@ -7,17 +7,17 @@ import os, glob
 import pandas as pd
 from typing import Optional, Tuple
 
-def ontime_csv(path_glob: str, ontime: str) -> Optional[str]:
+def ontime_csv(path_glob: str, online_index: int) -> Optional[str]:
     """
     Return the latest file path that matches the glob, or None if none exists.
     Example: ontime_csv('data/inbox/forecast/*.csv')
     """
-    # files = glob.glob(path_glob)
-    # if not files:
-    #     return None
-    # # Sort by modified time
-    # files.sort(key=lambda p: os.path.getmtime(p))
-    return ontime
+    files = glob.glob(path_glob)
+    if not files:
+        return None
+    # Sort by modified time
+    files.sort(key=lambda p: os.path.getmtime(p))
+    return files[online_index]
 
 def latest_csv(path_glob: str) -> Optional[str]:
     """

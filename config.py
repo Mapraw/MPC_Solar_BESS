@@ -43,10 +43,10 @@ CONFIG = {
         "use_qp": True,
         "qp_weights": {
             "w_track": 1.0,
-            "w_mag": 1e-4,
-            "w_smooth": 1e-2,
-            "w_block_energy": 10.0,
-            "w_terminal_soc": 0.5,
+            "w_mag": 1e-5,
+            "w_smooth": 1e-3,
+            "w_block_energy": 1.0,
+            "w_terminal_soc": 0.0005,
         }
     }
 
