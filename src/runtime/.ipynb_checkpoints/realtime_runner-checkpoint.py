@@ -189,7 +189,7 @@ class RealTimeEMS:
             "actual_available": has_act,
             "current_index": idx_cur,
         }
-        print("br", br)
+        # print("br", br)
         remaining_steps_day = int((self.day_end - t_now).total_seconds() // (self.dt_minutes * 60)) + 1
         target_power_kw_block = float(E_targets[0] / 0.25)
         
