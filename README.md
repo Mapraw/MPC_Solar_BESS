@@ -1,3 +1,7 @@
+This code have 2 branches
+1. master: Prototype of MPC
+2. MPC_1sec: 1 second interval thinking
+
 Test system: python online_test.py
 
 In this test, the python will run one period simulation through for loop. We have already prepared data in data folder.
