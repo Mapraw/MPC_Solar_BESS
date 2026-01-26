@@ -9,6 +9,8 @@ from importlib import import_module
 import os 
 from src.runtime.realtime_runner import RealTimeEMS
 from src.plotting.plots import plot_day, plot_soc, plot_block_energy, plot_block_energy_errors_summary
+import numpy as np
+import matplotlib.pyplot as plt
 
 def align_to_next_5min(now: pd.Timestamp, dt_min: int = 5) -> pd.Timestamp:
     """
@@ -23,6 +25,9 @@ def align_to_next_5min(now: pd.Timestamp, dt_min: int = 5) -> pd.Timestamp:
     return next_ts
 
 def main():
+    check_time = []
+
+    
     CONFIG = import_module("config").CONFIG
     runner = RealTimeEMS(CONFIG)
 
@@ -32,16 +37,18 @@ def main():
     results = []
     # Loop until day_end inclusive
     while t_now <= pd.Timestamp(CONFIG["time"]["day_end"]):
+        start_time = time.time()
         t0_wall = time.time()
         try:
             result = runner.tick(t_now, online_index)
             results.append(result)
-            print(f"[{t_now}] p_bess={result['battery_power_kw']:.0f} kW, "
-                  f"grid={result['grid_output_kw']:.0f} kW, SOC={result['soc_kwh']:.0f} kWh")
+            # print(f"[{t_now}] p_bess={result['battery_power_kw']:.0f} kW, "
+            #       f"grid={result['grid_output_kw']:.0f} kW, SOC={result['soc_kwh']:.0f} kWh")
             # print(result)
         except Exception as e:
             # If inputs not ready, log and continue; fallback to forecast-only handled inside
-            print(f"[{t_now}] Tick failed: {e}")
+            # print(f"[{t_now}] Tick failed: {e}")
+            pass
 
         # Sleep until next 5-min boundary (real-time mode; in test just advance immediately)
         next_t = t_now + pd.Timedelta(minutes=CONFIG["time"]["dt_minutes_rtu"])
@@ -53,8 +60,11 @@ def main():
 
         t_now = next_t
         online_index += 1
-        print("............................")
+        end_time = time.time()
+        check_time.append(end_time - start_time)
+        # print("............................")
 
+    print("Time used", max(check_time), min(check_time), np.average(check_time))
     ##################### plot result #############
     df = pd.DataFrame(results)
 
@@ -91,8 +101,9 @@ def main():
         top_n=12,
         ascending=False
     )
-
-
+    plt.show()
+    plt.hist(check_time)
+    plt.show()
 
 if __name__ == "__main__":
     main()
