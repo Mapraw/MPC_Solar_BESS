@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 from datetime import timedelta
 
-PEAK_KW = 60000
+PEAK_KW = 45000
 MU_HOUR = 12.5
 SIGMA_HOUR = 3.5
 
