@@ -11,3 +11,8 @@ Noted:
 1. Environment (runner) : src/runtime/realtime_runner.py
 2. Power Calculation: MPC_Solar_BESS/src/mpc/qp_block_mpc.py
 3. Result after running the code: MPC_Solar_BESS/logs
+
+
+Emulator (in models folder)
+- Turbine : Should use minute interval in controlling the power plant
+- BESS & Solar : are able to use second interval in controlling the power plant
