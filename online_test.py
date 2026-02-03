@@ -27,7 +27,6 @@ def align_to_next_5min(now: pd.Timestamp, dt_min: int = 5) -> pd.Timestamp:
 def main():
     check_time = []
 
-    
     CONFIG = import_module("config").CONFIG
     runner = RealTimeEMS(CONFIG)
 

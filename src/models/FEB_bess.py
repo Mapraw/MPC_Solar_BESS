@@ -52,10 +52,13 @@ class BESS(PowerPlant):
         if target >= 0:
             energy_needed_mwh = (target / self.eta_discharge) * dt_h
             if energy_needed_mwh > self.soc_mwh:
+                ### target จากภายนอกว่าต้องการ discharge เท่าไร
+                ### noted that power output value is average per dt_h
                 target = (self.soc_mwh / dt_h) * self.eta_discharge if dt_h > 0 else 0.0
                 energy_needed_mwh = (target / self.eta_discharge) * dt_h
             self.soc_mwh -= energy_needed_mwh
         else:
+            ### target/พลังงานเหลือ จาก ภายนอกว่าจะชาร์จเท่าไร
             charge_power = -target
             energy_in_mwh = (charge_power * self.eta_charge) * dt_h
             if self.soc_mwh + energy_in_mwh > self.capacity_mwh:

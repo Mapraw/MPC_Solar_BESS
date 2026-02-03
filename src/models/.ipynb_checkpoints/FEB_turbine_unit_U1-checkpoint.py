@@ -234,4 +234,4 @@ class TurbineUnit:
 
 def make_unit(config: TurbineUnitConfig | None = None) -> TurbineUnit:
     """Factory returning a unit instance named 'U1'."""
-    return TurbineUnit(name="U2", config=config)
+    return TurbineUnit(name="U1", config=config)

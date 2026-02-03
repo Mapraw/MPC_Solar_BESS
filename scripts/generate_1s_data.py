@@ -89,4 +89,4 @@ if __name__ == "__main__":
     print("\nDaily energy (kWh) ≈", df["energy_Wh"].iloc[-1] / 1000.0)
 
     # Optional: save to CSV
-    df.to_csv("data/day_ahead_1s.csv")
+    df.to_csv("../data/day_ahead_1s.csv")
