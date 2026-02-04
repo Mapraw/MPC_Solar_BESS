@@ -27,12 +27,25 @@ class UnitState(Enum):
 
 @dataclass
 class TurbineUnitConfig:
+    # Operating constraints
     min_mw: float = 7.0
     max_mw: float = 12.0
     ramp_mw_per_min: float = 1.0
+
+    # Start/stop timing
     startup_time_min: float = 3.0
     shutdown_time_min: float = 5.0
     startup_cost: float = 1000.0
+
+    
+    # ---- NEW: Energy quota options ----
+    # Total energy allowed per "period" (MWh). None => unlimited (disabled).
+    energy_limit_mwh: float | None = None
+    # Period length for automatic reset (minutes). None => no automatic reset.
+    energy_reset_period_min: float | None = None
+    # If True, when quota is insufficient to sustain min_mw,
+    # the unit will ramp down (maintains physical min constraint).
+    hard_stop_on_quota: bool = True
 
 
 class TurbineUnit:
