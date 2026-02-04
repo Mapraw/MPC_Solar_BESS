@@ -1,4 +1,4 @@
-timestamp,expected_power_kw
+timestamp,solar_forecast_mw
 2026-01-03T00:00:00,0
 2026-01-03T00:15:00,0
 2026-01-03T00:30:00,0
