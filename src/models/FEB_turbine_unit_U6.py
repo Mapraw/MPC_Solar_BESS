@@ -44,8 +44,10 @@ class HydroStorageConfig:
 
     # Numerical tolerance.
     eps: float = 1e-9
-
-
+    
+    startup_cost: float = 5000
+    shutdown_cost: float = 0
+    
 class HydroStorageUnit:
     """
     Bi-directional hydro storage unit with ramp limits and SoE-aware clipping.
